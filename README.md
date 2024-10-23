@@ -15,12 +15,12 @@
 - create footer
 - create a login page
 - CORS installation in the backend 
-
-
-
-
-
-
+- create a login page
+- install cors in backend add middleware to app with configuration: {origin & credentials: true}
+- intsall axios
+- whenever making api calls pass {withCredentials: true}
+- install @reduxjs/toolkit and react-redux
+- create a utils folder an create a reduxstore in it
 
 
 
