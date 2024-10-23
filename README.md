@@ -21,6 +21,11 @@
 - whenever making api calls pass {withCredentials: true}
 - install @reduxjs/toolkit and react-redux
 - create a utils folder an create a reduxstore in it
+- not allowed to access outher routes without login 
+- redirect to login till the token is present
+- logout, profile page
+
+
 
 
 
