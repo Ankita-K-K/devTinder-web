@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 const Login = () => {
   const [emailId, setEmailId] = useState("ganesh@gmail.com");
   const [password, setPassword] = useState("Ganesh@123");
+  const [error, setError] = useState("")
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleLogin = async () => {
@@ -20,7 +21,8 @@ const Login = () => {
       dispatch(addUser(res.data));
       navigate("/");
     } catch (err) {
-      console.log(err.message);
+      console.log(err);
+      setError(err.response.data.message || "Something went wrong");
     }
   };
   return (
@@ -66,6 +68,7 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </label>
+          <p className="text-red-500">{error}</p>
           <div className="card-actions justify-center my-1">
             <button className="btn btn-primary" onClick={handleLogin}>
               Login

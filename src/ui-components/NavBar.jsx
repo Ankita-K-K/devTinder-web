@@ -1,16 +1,19 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../constants';
 import axios from 'axios';
+import { removeUser } from '../utils/slices/userSlice';
 const NavBar = () => {
   const navigate = useNavigate();
   const user = useSelector((store) => store.user);
+  const dispatch = useDispatch();
   const handleLogout = async() => {
     try{
-      const res = await axios.post(BASE_URL + "/logout", {withCredentials: true});
+      const res = await axios.post(BASE_URL + "/logout",{}, {withCredentials: true});
       if(res.status === 200){
-        navigate("/login");
+        dispatch(removeUser());
+        return navigate("/login");
       }
       console.log(res);
     }catch(err){
