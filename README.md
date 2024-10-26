@@ -24,7 +24,8 @@
 - not allowed to access outher routes without login 
 - redirect to login till the token is present
 - logout, profile page
-
+- get feed and add feed in the store
+- build the user card on feed
 
 
 
