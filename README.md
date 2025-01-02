@@ -26,9 +26,12 @@
 - logout, profile page
 - get feed and add feed in the store
 - build the user card on feed
-
-
-
+- edit profile feature
+- show toast message
+- see all my connections
+- page to see all conection requests
+- feature to accept/reject connection request 
+- send/ignore the users from feed
 
 routing:
 body: 

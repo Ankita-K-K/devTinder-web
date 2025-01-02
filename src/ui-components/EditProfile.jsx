@@ -8,12 +8,13 @@ const EditProfile = () => {
   const user = useSelector((store) => store.user);
   const [firstName, setFirstname] = useState(user.firstName);
   const [lastName, setLastname] = useState(user.lastName);
-  const [age, setAge] = useState(user.age && user.age);
+  const [age, setAge] = useState(user.age || "");
   const [photoUrl, setPhotoUrl] = useState(user.photoUrl);
   const [gender, setGender] = useState(user.gender ? user.gender : "");
   const [about, setAbout] = useState(user.about);
   const [error, setError] = useState("");
   const [showToast, setShowToast] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
   const dispatch = useDispatch();
 
   const handleEditProfile = async () => {
@@ -38,6 +39,7 @@ const EditProfile = () => {
       console.log(res.data.message);
       console.log(res.data.data);
       dispatch(addUser(res.data.data));
+      setShowEdit(false);
     } catch (err) {
       setError(err.response.data);
       console.log(err);
@@ -68,7 +70,7 @@ const EditProfile = () => {
           )}
         </div>
         <div className="flex justify-center items-center gap-10">
-          <section>
+          {showEdit && <section>
             <div className="my-10">
               <div className="card bg-base-200 w-96 shadow-xl">
                 <div className="card-body">
@@ -148,25 +150,28 @@ const EditProfile = () => {
                 </div>
               </div>
             </div>
-          </section>
+          </section>}
           <section>
-            <div className="card bg-base-300 w-80 h-[25rem] shadow-xl">
-              <figure className="h-[60%]">
-                <img className="w-full h-full" src={photoUrl} alt={firstName} />
+            <div className="card bg-base-300 w-80 h-[26rem] shadow-xl my-3">
+              <figure>
+                <img className="w-full h-full hover:scale-125 transition-transform duration-1000" src={photoUrl} alt={firstName} />
               </figure>
-              <div className="px-4 py-2">
+              <div className="px-4 py-4">
                 <h2 className="text-bold text-2xl text-zinc-400">
                   {firstName + " " + lastName}
                 </h2>
-                {age && gender && <p className="">{age + ", " + gender}</p>}
+                {age && gender && <p className="py-3">{age + ", " + gender}</p>}
                 <p className="">{about}</p>
-                <div className="card-actions pt-8 justify-evenly">
+                <div className="card-actions pt-8 flex flex-nowrap justify-evenly">
                   <button disabled={true} className="btn btn-primary">
                     Ignore
                   </button>
                   <button disabled={true} className="btn btn-secondary">
                     Interested
                   </button>
+                  {!showEdit && <button onClick={() => setShowEdit(true)} className="btn btn-secondary">
+                    Edit Profile
+                  </button>}
                 </div>
               </div>
             </div>

@@ -11,7 +11,6 @@ const Feed = () => {
 
   const getUser = async () => {
     try{
-      if(user) return;
       const res = await axios.get(BASE_URL + "/user/feed", {withCredentials: true});
       dispatch(addFeed(res.data));
     }catch(err){
@@ -23,11 +22,16 @@ const Feed = () => {
     getUser();
   }, []);
 
+if(!user) return;
+if(user.length === 0){ return (
+  <div>
+    <h1 className='text-2xl font-semibold text-center my-5'>No new users found</h1>
+  </div>
+)}
+
   return (user && (
-    <div className='flex flex-col justify-center items-center mt-5 mb-10'>
-      {
-        user.map((user) => <FeedUi userData={user} />)
-      }
+    <div className='flex justify-center items-center mt-3 mb-16'>
+      <FeedUi userData={user[0]}/>
     </div>
   ))
 }

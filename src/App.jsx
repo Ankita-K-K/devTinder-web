@@ -3,8 +3,10 @@ import Body from "../src/components/Body";
 import Login from "../src/components/Login";
 import Profile from "../src/components/Profile";
 import { Provider } from "react-redux";
-import Feed from "./components/Feed";
+import Feed from "../src/components/Feed";
+import Connections from "../src/components/Connections";
 import appStore from "../src/utils/appStore"
+import Requests from "../src/components/Requests";
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
             <Route path="/" element={<Feed />} />
             <Route path="/login" element={<Login />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/connections" element={<Connections />} />
+            <Route path="/requests" element={<Requests />} />
           </Route>
         </Routes>
       </BrowserRouter>

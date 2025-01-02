@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../constants';
@@ -6,6 +6,12 @@ import axios from 'axios';
 import { removeUser } from '../utils/slices/userSlice';
 const NavBar = () => {
   const navigate = useNavigate();
+  const friends = useSelector((store) => store.connection);
+  const requestData = useSelector((store)=> store.requests);
+  const[ friendsLength, setFriendsLength] = useState(0);
+  const [requestLength, setRequestLength] = useState(0);
+  console.log(requestData);
+  
   const user = useSelector((store) => store.user);
   const dispatch = useDispatch();
   const handleLogout = async() => {
@@ -20,6 +26,11 @@ const NavBar = () => {
       console.log(err);
     }
   }
+  useEffect(()=>{
+    friends && setFriendsLength(friends.length);
+    requestData && setRequestLength(requestData.length);
+  }, [friends, requestData])
+
   return (
     <div>
       <div className="navbar bg-base-200">
@@ -46,7 +57,8 @@ const NavBar = () => {
                   <span className="badge">New</span>
                 </Link>
               </li>
-              <li><a>Settings</a></li>
+              <li><Link to="/connections">{`Friends (${friends === null ? 0 : friendsLength})`}</Link></li>
+              <li><Link to="/requests">{`Requests (${requestData === null ? 0 : requestLength})`}</Link></li>
               <li><button onClick={handleLogout}>Logout</button></li>
             </ul>
           </div>

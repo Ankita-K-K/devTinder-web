@@ -6,9 +6,12 @@ import { BASE_URL } from "../constants";
 import { useDispatch } from "react-redux";
 
 const Login = () => {
-  const [emailId, setEmailId] = useState("ganesh@gmail.com");
-  const [password, setPassword] = useState("Ganesh@123");
-  const [error, setError] = useState("")
+  const [emailId, setEmailId] = useState("");
+  const [password, setPassword] = useState("");
+  const [firstName, setFirstname] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [error, setError] = useState("");
+  const [isLoginForm, setIsLoginForm] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleLogin = async () => {
@@ -25,11 +28,43 @@ const Login = () => {
       setError(err.response.data.message || "Something went wrong");
     }
   };
+
+  const handleSignIn = async() => {
+    try{
+      const res = await axios.post(BASE_URL + "/signup", {firstName, lastName, emailId, password}, {withCredentials:true});
+      console.log(res);
+      dispatch(addUser(res.data.data));
+      return navigate("/profile");
+    }catch(err){
+      setError(err.response.data.message || "something went wrong");
+    }
+  }
+
   return (
-    <div className="flex justify-center my-10">
+    <div className="flex justify-center mt-3 mb-16">
       <div className="card bg-base-200 w-96 shadow-xl">
         <div className="card-body">
-          <h2 className="card-title">Login</h2>
+          <h2 className="card-title">{isLoginForm ? "Login" : "Sign Up"}</h2>
+          {!isLoginForm && <div className="flex flex-col gap-2">
+          <label className="input input-bordered flex items-center gap-2 my-1">
+            <input
+              type="text"
+              className="grow"
+              placeholder="First Name"
+              value={firstName}
+              onChange={(e) => setFirstname(e.target.value)}
+            />
+          </label>
+          <label className="input input-bordered flex items-center gap-2 my-1">
+            <input
+              type="text"
+              className="grow"
+              placeholder="Last Name"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+            />
+          </label>
+          </div>}
           <label className="input input-bordered flex items-center gap-2 my-1">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -64,16 +99,18 @@ const Login = () => {
             <input
               type="password"
               className="grow"
+              placeholder="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </label>
           <p className="text-red-500">{error}</p>
-          <div className="card-actions justify-center my-1">
-            <button className="btn btn-primary" onClick={handleLogin}>
-              Login
+          <div className="card-actions justify-center mt-5 mb-2">
+            <button className="btn btn-primary" onClick={isLoginForm ? handleLogin : handleSignIn}>
+              {isLoginForm ? "Login" : "Sign Up"}
             </button>
           </div>
+          <p className="cursor-pointer text-center text-blue-400 text-sm" onClick={() => setIsLoginForm(!isLoginForm)}>{isLoginForm ? "New to DEVTINDER? Sign Up here" : "Already a User? Login here"}</p>
         </div>
       </div>
     </div>
